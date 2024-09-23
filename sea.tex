@@ -32,8 +32,75 @@
 \newpage
 \section*{Introducción}
 
-\section{}
+\section{Altavoces}
 
 \subsection{Introducción al altavoz electrodinámico}
 
+
+Un altavoz se compone de varios elementos:
+
+
+\subsubsection{Sección eléctrica}
+
+\subsubsection{Sección de conversión electromećanica}
+
+\subsubsection{Sección mecánica}
+
+Las partes mécanicas del altavoz son la membrana y la araña (suspensión). En términos de mecánica, este sistema es equivalente a un pistón, un muelle y una masa. VER DIAGRAMA CUADERNO
+
+\begin{equation} \label{eq:ley_hooke}
+    F = -kz
+\end{equation}
+
+\begin{equation} \label{eq:amortiguamiento}
+    F = -d \dv{z}{t}
+\end{equation}
+
+Donde $d$ es la disipación de energía por rozamiento.
+
+\begin{equation} \label{eq:masa}
+    F = m \dv[2]{z}{t}
+\end{equation}
+
+\begin{equation} \label{eq:ecuacion_seccion_mecanica}
+    F - k z - d \dv{z}{t} = m \dv[2]{z}{t}
+\end{equation}
+
+\begin{equation} \label{eq:ecuacion_seccion_mecanica_2}
+    F = kz + d \dv{z}{t} + m \dv[2]{z}{t}
+\end{equation}
+
+\subsubsection{Sección de conversión mecánico-acústica}
+
+Para hallar la impedancia de radiación, recordamos que una impedancia es la relación entre tensión y corriente. En nuestro modelo, la tensión se relaciona con la velocidad y la corriente con la fuerza. Por lo tanto, la impedancia de radiación es la relación entre la velocidad de la membrana y la fuerza que se ejerce sobre ella.
+
+La impedancia acústica mide cuánto se está oponiendo el medio acústico (aire) al movimiento del pistón. El pistón comprime y expande el aire y genera una variación de la presión.
+
+\begin{equation} \label{eq:incremento_presion}
+    \dd p_1 = j\omega\rho_0 v_z d S_1 \frac{e^{-jkr_1}}{2\pi r_1}
+\end{equation}
+
+Una región 1 del pistón genera una fuerza sobre otra región 2 del pistón de la siguiente manera: 
+\begin{equation} \label{eq:presion_de_1_sobre_2}
+    \dd f_{1,2} = j\omega \rho_0 v_z d S_1 \frac{e^{-jkr_1}}{2\pi r_1} \dd S_2
+\end{equation}
+
+\begin{equation} \label{eq:presion_de_2_sobre_1}
+    F = \frac{j\omega \rho_0 v_z}{2\pi} \int_{S_1} \int_{S_2} \frac{e^{-jkr_{1,2}}}{r_{1,2}} \dd S_1 \dd S_2    
+\end{equation}
+
+La solución de esta ecuación es:
+
+\begin{equation} \label{eq:impedancia_piston}
+    Z = \frac{F}{v_z} = \pi a^2 \rho_0 c \left[ \left( 1 - \frac{J_1 (2ka)}{ka}  \right) + j \left( \frac{H_1 (2ka)}{ka} \right)\right]
+\end{equation}
+
+Donde $J_1$ y $H_1$ son las funciones de Bessel de primer tipo y orden 1, respectivamente.
+
+\subsubsection{Modelo completo del altavoz}
+
+\begin{align*}
+    e'_g &= \frac{e_g}{Bl} & R_{MS} &= \frac{1}{d} & R_{AP-L} &= \frac{1}{2} \cdot \frac{9\pi}{\rho_0ca^2} \\
+    R'_E 
+\end{align*}
 \end{document}
