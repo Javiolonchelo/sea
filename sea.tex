@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage[labelfont=bf]{caption}
 
+
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -16,6 +17,8 @@
 \usepackage{multicol}
 % \usepackage{esvect}
 \usepackage{physics}
+\usepackage{siunitx}
+\AtBeginDocument{\RenewCommandCopy{\qty}{\SI}}
 \usepackage{parskip}
 
 % Circuitikz
@@ -236,6 +239,26 @@ Este sistema, que tiene en cuenta también la parte eléctrica del altavoz, tend
     Q_t = ?
 \end{equation}
 
+\textit{Correcciones que ha hecho el profe en clase el día lunes 30 de septiembre}
+
+\[ \frac{v_z}{e_g} = \frac{Z_{MS}}{R_E' + Z_{MS}} = \frac{\frac{Z_0}{R_E'}s}{s^2 + \left( \frac{\omega_s}{Q_{MS}} + \frac{Z_0}{R_E'} \right) s + \omega_s^2} \]
+
+Donde el término del denominador que acompaña a $s$ resulta que es $\frac{\omega_s}{Q_T}$. Es decir:
+
+\[ \frac{\omega_s}{Q_T} = \frac{\omega_s}{Q_{MS}} + \frac{Z_0}{R_E'} \]
+
+Valores realistas:
+
+\begin{align*}
+    R_E &= 7.5\\
+    L_E &= 300 \times 10^{-6}\\
+    M_{MS} &= 0.03\\
+    R_{MS} &= \frac{1}{6} \\
+    C_{MS} &= 6 \times 10^{-5}\\
+    C_{AP} &= 21.3 \times 10^{-3}\\
+    R_{AP} &= 17.3 \times 10^{-3}\\
+\end{align*}
+
 
 \begin{figure}[htp]
     \centering
@@ -249,9 +272,107 @@ Este sistema, que tiene en cuenta también la parte eléctrica del altavoz, tend
 \label{fig:altavoz_HF}
 \end{figure}
 
-A \textbf{alta frecuencia}
+A \textbf{alta frecuencia}, el sistema depende de características mecánicas y eléctricas.
 
+\[ Z_{MS} = \left( \frac{1}{R_{MS}} + \frac{1}{R_{AP}} + s M_{MS}  \right) ^{-1} \]
 
+\[ \frac{v_z}{e_g} = \frac{Z_{MS}}{L_E's + Z_{MS}} = \frac{1}{1 + L_E' \left( \frac{1}{R_{MS}} + \frac{1}{R_{AP}} + sM_{MS} \right) s }  \]
 
+\textbf{RESUMEN.} 
+\begin{enumerate}
+     \item A \textbf{baja frecuencia}, el efecto dominante es la característica mecánica (la rigidez del muelle).
+     \item Existe una \textbf{resonancia mecánica} que depende de las pérdidas (resistencias y amortiguamiento) y el campo magnético.
+     \item A \textbf{frecuencias medias} la respuesta es constante y dominada por la masa.
+     \item Existe una \textbf{resonancia electromecánica} determinada por la bobina ya que almacena bastante energía.
+     \item A \textbf{alta frecuencia} la bobina almacena mucha energía y aumentar la frecuencia (velocidad del altavoz) cuesta mucho.
+\end{enumerate}
+
+TODO: Análisis de matlab de diapositiva 15
+
+TODO: Análisis de matlab de diapositiva 16. Nota. En esta diapositiva no independica la potencia disipada en $Z_E$ y $Z_{MS}$. Se podría hacer para ver cómo afecta.
+
+\subsubsection{Transferencia de potencia}
+
+La respuesta de potencia define el \textbf{ancho de banda} del altavoz.
+
+\begin{align*}
+    \overline{P_g} &= \frac{1}{2} \Re \left\lbrace E_g I_g^* \right\rbrace = \frac{1}{2} \Re \left\lbrace E_g \frac{E_g^*}{R_g + Z^*_{\text{total}}} \right\rbrace \\
+    \overline{P _{\text{total}}} &= \frac{1}{2} \Re \left\lbrace V _{\text{total}} I_g^* \right\rbrace = \frac{1}{2} \Re \left\lbrace E_g \frac{Z_{\text{total}}}{R_g + Z_{\text{total}}} I_g^* \right\rbrace 
+\end{align*}
+
+\subsubsection{Diagrama de radiación}
+
+¿Cómo contribuye cada punto $\left( x', y', z' \right)$ del pistón a la presión en un punto del espacio $\left( x, y, z \right)$?
+
+Primero se supone que el punto $\left( x', y', z' \right)$ se ubica en \textit{campo lejano}. Es decir, las dimensiones del altavoz son mucho más pequeñas que la distancia del altavoz al punto:
+
+\begin{equation} \label{eq:campo_lejano}
+    r \geq 2 \frac{\left( 2a \right)^2}{\lambda} = \frac{8a^2}{\lambda}    
+\end{equation}
+
+Sin entrar en detalles, la solución es:
+
+\begin{equation} \label{eq:presion_punto}
+    \abs{p(r,\theta)} \propto \frac{2 J_1(ka \sen \theta)}{ka \sen \theta}
+\end{equation}
+
+Donde $J_1$ es la función de Bessel de primer tipo y orden 1. Las conclusiones a las que podemos llegar tras ver esta solución:
+
+\begin{itemize}
+    \item La presión depende del ángulo de radiación $\theta$.
+    \item La presión es máxima en el eje del altavoz.
+    \item Como $k= \frac{2\pi}{\lambda}$, la presión depende de la relación $\frac{a}{\lambda}$. En otras palabras, de la frecuencia.
+    \item Para altavoces de gran diámetro, el campo lejano se alcanza a distancias mayores. Por lo tanto, es común que esta aproximación no sirva a distancias cortas para altavoces de gran tamaño.
+\end{itemize}
+
+VER GRÁFICA DIAPOSITIVA 18. El diagrama de radiación depende del radio del altavoz. La radiación de un altavoz puede ser adecuada en ciertas frecuencias (que para cualquier ángulo $\theta$ la presión sea máxima) o muy mala y que existan cancelaciones de presión para ciertos ángulos.
+
+Cuando el altavoz no opera en campo lejano, los cálculos son mucho más complejos y solo se pueden encontran soluciones sencillas en el eje $\theta=0$. Algunas frecuencias se anulan completamente, y a distancias en torno a $r=\lambda$ en ocasiones se producen mínimos. Esto no es un problema tan grande si se trata de frecuencias bajas.
+
+\subsection{Parámetros de altavoces}
+\subsubsection{Respuesta en frecuencia}
+
+La respuesta se da en términos de la presión sonora (SPL), siendo la presión de referencia $p _{\text{ref}} = \qty{20}{\micro\pascal}$ y definida para unas ciertas condiciones:
+\begin{itemize}
+    \item Señal de entrada con potencia de \qty{1}{\watt}.
+    \item Distancia al centro acústico del altavoz de \qty{1}{\meter}.
+    \item Medido en el eje del altavoz ($\theta = \qty{0}{\degree}$).
+\end{itemize}
+
+Señales de entrada para su medida:
+\begin{itemize}
+    \item Barrido de tonos de amplitud constante. La duración del barrido determinará la resolución en frecuencia.
+    \item Señales con ancho de banda con un tercio de octava.
+\end{itemize}
+
+\subsubsection{Impedancia}
+
+Es común que los altavoces sean autoamplificados, es decir, que integran el amplificador eléctrico en la propia caja del altavoz. En este tipo de altavoces no es común ni necesario que den datos sobre la impedancia del altavoz.
+
+Típicamente se da el módulo (omitiendo la fase) $\abs{Z _{\text{total}}(f)}$. Se suele ofrecer una \textbf{impedancia nominal} definida a menudo como el valor mínimo de impedancia obtenido a partir de la frecuencia de resonancia.
+
+Orientativamente:
+
+\begin{equation} \label{eq:impedancia_nominal}
+    Z _n \leq \frac{\min \abs{ Z _{\text{total}}(f)} }{0.8}
+\end{equation}
+
+Valores típicos de la impedancia nominal suelen ser \qty{4}{\ohm}, \qty{8}{\ohm} y \qty{16}{\ohm}. A veces podemos encontrar otras.
+
+\subsubsection{Sensibilidad}
+
+La sensibilidad es el nivel medio de presión sonora en el ancho de banda del altavoz a una distancia de \qty{1}{\meter} en el eje ($\theta = \qty{0}{\degree}$) para una potencia de entrada de \qty{1}{\watt}.
+
+La tensión en bornes del altavoz se puede obtener de la impedancia nominal como:
+\[ V _{\text{in}} = \sqrt{Z_n} \]
+
+Si la potencia o la distancia cambian, que puede pasar si las condiciones de medida no pueden cumplirse\footnote{Para altavoces de gran diámetro, es posible que la distancia de \qty{1}{\meter} se encuentre en campo cercano. Para medir la sensibilidad se escoge entonces una distancia mayor.}, se aplica una corrección:
+
+TODO: Añadir ecuación de corrección
+
+\subsubsection{Potencia}
+\subsubsection{Distorsión}
+\subsubsection{Directividad}
+\subsubsection{Parámetros de Thielle-Small}
 
 \end{document}
