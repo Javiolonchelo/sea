@@ -3,6 +3,15 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
 \usepackage[labelfont=bf]{caption}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor={red!50!black},
+    linkcolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
 \usepackage{mathtools}
 \usepackage{multicol}
 % \usepackage{esvect}
@@ -159,10 +168,19 @@ Una región 1 del pistón genera una fuerza sobre otra región 2 del pistón de 
 La solución de esta ecuación es:
 
 \begin{equation} \label{eq:impedancia_piston}
-    Z = \frac{F}{v_z} = \pi a^2 \rho_0 c \left[ \left( 1 - \frac{J_1 (2ka)}{ka}  \right) + j \left( \frac{H_1 (2ka)}{ka} \right)\right]
+    Z_{ac} = \frac{F}{v_z} = \pi a^2 \rho_0 c \left[ \left( 1 - \frac{J_1 (2ka)}{ka}  \right) + j \left( \frac{H_1 (2ka)}{ka} \right)\right]
 \end{equation}
 
-Donde $J_1$ y $H_1$ son las funciones de Bessel de primer tipo y orden 1, respectivamente.
+Donde $J_1$ y $H_1$ son la función de Bessel de primer tipo y orden 1 y la función de Struve de primer tipo y orden 1, respectivamente. Podemos ver la representación de la impedancia de radiación en la \autoref{fig:impedancia_radiacion}.
+
+\begin{figure}[htp]
+    \centering
+    \caption{Impedancia de radiación acústica de un pistón}
+    \includegraphics[width=\linewidth]{images/acoustic_radiation_impedance.png}
+\label{fig:impedancia_radiacion}
+\end{figure}
+
+
 
 \subsubsection{Modelo completo del altavoz}
 
