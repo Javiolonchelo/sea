@@ -20,7 +20,7 @@
 \usepackage{physics}
 \AtBeginDocument{\RenewCommandCopy{\qty}{\SI}}
 \usepackage{parskip}
-
+\usepackage{xcolor}
 % Circuitikz
 \usepackage[american, RPvoltages]{circuitikz}
 \usetikzlibrary{calc}
@@ -70,10 +70,10 @@
 Un altavoz se compone de varios elementos:
 
 \begin{itemize}
-    \item Imán
-    \item Bobina
-    \item Membrana, cono o diafragma
-    \item Bornas de conexión (entre la membrana y la bobina)
+    \item Imán.
+    \item Bobina.
+    \item Membrana, cono o diafragma.
+    \item Bornas de conexión (entre la membrana y la bobina).
 \end{itemize}
 
 A bajas frecuencias se puede aproximar al comportamiento de un pistón, pero a altas frecuencias pueden aparecer resonancias. 
@@ -125,7 +125,7 @@ A bajas frecuencias se puede aproximar al comportamiento de un pistón, pero a a
 
 \subsubsection{Sección mecánica}
 
-Las partes mécanicas del altavoz son la membrana y la araña (suspensión). En términos de mecánica, este sistema es equivalente a un pistón, un muelle y una masa. VER DIAGRAMA CUADERNO
+Las partes mécanicas del altavoz son la membrana y la araña (suspensión). En términos de mecánica, este sistema es equivalente a un pistón, un muelle y una masa. TODO Copiar el diagrama del cuaderno.
 
 \begin{equation} \label{eq:ley_hooke}
     F = -kz
@@ -363,7 +363,10 @@ Valores típicos de la impedancia nominal suelen ser \qty{4}{\ohm}, \qty{8}{\ohm
 
 \subsubsection{Sensibilidad}
 
-La sensibilidad es el nivel medio de presión sonora en el ancho de banda del altavoz a una distancia de \qty{1}{\meter} en el eje ($\theta = \qty{0}{\degree}$) para una potencia de entrada de \qty{1}{\watt}.
+\color{purple}
+La sensibilidad es el valor medio de presión sonora en el rango de frecuencias del altavoz a una distancia de \qty{1}{\meter} en el eje con una potencia eléctrica fija de \qty{1}{\watt}.
+\color{black}
+
 
 La tensión en bornes del altavoz se puede obtener como:
 \[ P = V  I = \frac{V^2}{Z_N} \qquad \Longrightarrow \qquad V = \sqrt{P   Z_N} \]
