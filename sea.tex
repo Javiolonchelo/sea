@@ -16,8 +16,8 @@
 \usepackage{mathtools}
 \usepackage{multicol}
 % \usepackage{esvect}
-\usepackage{physics}
 \usepackage{siunitx}
+\usepackage{physics}
 \AtBeginDocument{\RenewCommandCopy{\qty}{\SI}}
 \usepackage{parskip}
 
@@ -187,13 +187,15 @@ Donde $J_1$ y $H_1$ son la función de Bessel de primer tipo y orden 1 y la func
 
 \subsubsection{Modelo completo del altavoz}
 
-INSERTAR DIAGRAMA CIRCUITO
-
 \begin{figure}[htp]
     \centering
     \caption{Modelo eléctrico completo del altavoz}
-    \begin{circuitikz}
-        \draw (0,0) to[sV, v=$e_g'$] ++(0,3) to[R=$R_E'$] ++(3,0) to[L=$L_E'$] ++(2,0) 
+    \begin{circuitikz}[scale=0.9, transform shape]
+        \draw (0,0) to[sV, v=$e_g'$] ++(0,3) to[R=$R_E'$] ++(2,0) to[L=$L_E'$] ++(2,0) to [R=$R_{MS}$, *-*] ++(0,-3) to[short] (0,0);
+        \draw (4,3) to[short] ++(1.5,0) to[L=$C_{MS}$, *-*] ++(0,-3) to[short] ++(-1.5,0);
+        \draw (5.5,3) to[short] ++(1.5,0) to[C=$M_{MS}$, *-*] ++(0,-3) to[short] ++(-1.5,0);
+        \draw (7,3) to[R=$R_{AP-LF}$, -*] ++(3, 0) to[short] ++(0,1) to[R=$R_{AP-HF} - R_{AP-LF}$] ++(2,0) to[short, -*] ++(0,-1)  to[short] ++(1,0) to[C=$M_{AP}$] ++(0,-3) to[short] ++(-6,0);
+        \draw (10,3) to[short] ++(0,-1) to[L=$L_{AP}$] ++(2,0) to[short] ++(0,1)
         ;
     \end{circuitikz}
 \label{fig:modelo_completo_altavoz}
@@ -363,8 +365,8 @@ Valores típicos de la impedancia nominal suelen ser \qty{4}{\ohm}, \qty{8}{\ohm
 
 La sensibilidad es el nivel medio de presión sonora en el ancho de banda del altavoz a una distancia de \qty{1}{\meter} en el eje ($\theta = \qty{0}{\degree}$) para una potencia de entrada de \qty{1}{\watt}.
 
-La tensión en bornes del altavoz se puede obtener de la impedancia nominal como:
-\[ V _{\text{in}} = \sqrt{Z_n} \]
+La tensión en bornes del altavoz se puede obtener como:
+\[ P = V  I = \frac{V^2}{Z_N} \qquad \Longrightarrow \qquad V = \sqrt{P   Z_N} \]
 
 Si la potencia o la distancia cambian, que puede pasar si las condiciones de medida no pueden cumplirse\footnote{Para altavoces de gran diámetro, es posible que la distancia de \qty{1}{\meter} se encuentre en campo cercano. Para medir la sensibilidad se escoge entonces una distancia mayor.}, se aplica una corrección:
 
@@ -374,5 +376,76 @@ TODO: Añadir ecuación de corrección
 \subsubsection{Distorsión}
 \subsubsection{Directividad}
 \subsubsection{Parámetros de Thielle-Small}
+
+\begin{itemize}
+     \item \textbf{Frecuencia de resonancia mecánica:} $f_s$
+     \item \textbf{Superficie efectiva del diagrama} $S_d$
+     \item \textbf{Resistencia de la bobina en corriente continua} $R_e$
+     \item \textbf{Factor de calidad total}\footnote{Recordatorio: El factor de calidad (a veces llamado factor de sobrecarga) se puede calcular como $Q= \frac{\omega_0}{\Delta \omega} = 2\pi \frac{\text{Energía almacenada}}{\text{Energía disipada por ciclo}}$.} $Q_t$
+     \item \textbf{Factor de calidad eléctrico} $Q_{ES}$
+     \item \textbf{Factor de calidad mecánico} $Q_{MS}$
+     \[ Q_t = \frac{Q_{ES}Q_{MS}}{Q_{ES} + Q_{MS}} \]
+     \item \textbf{Volumen de aire equivalente a la ductilidad de suspensión:} $V_{AS} = \rho_0c^2S_D^2C_{MS}$
+     \item \textbf{Desplazamiento máximo del cono con respecto al reposo:} $X_{\text{max}}$
+\end{itemize}
+
+TODO: Añadir resolución del T1-Problema 1
+TODO: Añadir resolución del T1-Problema 2
+
+\subsection{Altavoces en caja cerrada}
+
+\newpage
+\section{Filtros de cruce}
+
+\subsection{Introducción}
+
+\subsection{Filtros pasivos}
+
+Los filtros se definen por dos parámetros: la \textbf{frecuencia de resonancia} $\omega _r$ y el \textbf{factor de calidad} $Q$.
+
+Los \textbf{filtros de Butterworth} se caracterizan por no presentar oscilaciones (\textbf{rizado}) en la banda de paso.
+
+Cuando $Q>\frac{1}{\sqrt{2}}$ se considera que el filtro es \textbf{resonante} (aparece un pequeño aumento de la amplitud en la frecuencia de cortes).
+
+TODO Añadir gráficas de un filtro para diferentes valores de $Q$
+
+
+\subsubsection{Filtros de segundo orden}
+
+Para filtros de cruce, los valores de $Q$ utilizados son típicamente $Q=\frac{1}{2}$, que se corresponde con un amortiguamiento crítico. Además, $\omega_l = \omega_{m1}$ y $\omega_h = \omega_{m2}$.
+
+Para conseguir que la respuesta sea lo más plana posible, se debe definir la frecuencia de corte a \qty{-6}{\dB}.
+
+\subsection{Ajuste de niveles}
+
+Cuando una caja tiene varias vías, significa que tenemos altavoces diferentes con parámetros diferentes. El objetivo del ajuste de niveles es \textbf{igualar la sensibilidad} en las bandas de paso.
+
+Al modificar $R _{\text{in}}$ se ve afectado $Q_{ES}$, sobre todo en el woofer. La corrección necesaria será:
+\begin{equation} \label{eq:correccion_niveles}
+    k _{\text{pad}} = 10^{\frac{S \left[ \unit{\volt} \text{ rel } p_0\right] _{\text{ref}} - \left[ \unit{\volt} \text{ rel } p_0 \right] }{20}} 
+\end{equation}
+
+\subsection{Ecualización de alta frecuencia}
+
+Recordamos que a alta frecuencia el altavoz no presenta un comportamiento resistivo. La bobina $L_E$ afectará a la respuesta. Para corregir esto, existen varias soluciones:
+\begin{itemize}
+    \item Integrar $L_E$ en el diseño del filtro de cruce.
+    \item Situar la frecuencia de cruce por encima de la de resonancia de los altavoces (midranges y tweeters).
+    \item Introducir un \textbf{ecualizador}.
+\end{itemize}
+
+La ecualización se tendrá que hacer con el objetivo de aplanar la zona de alta frecuencia y además aplanar la resonancia. TODO Mirar la diapositiva 17.
+
+\subsection{Funciones de transferencia globales}
+
+Al trabajar con una caja de tres vías, veremos que la respuesta en la sala será la combinación del efecto de los tres altavoces. En cada punto de la sala, se sumarán las amplitudes y por ello la fase con la que emite cada altavoz será muy importante. Por si no fuera poco, el filtro de cruce también afectará a la fase.
+
+Decisiones a tomar:
+\begin{itemize}
+    \item Se debe elegir si sumar salidas con polaridad invertida.
+    \item Se debe seleccionar $Q$ para lograr respuesta plana.
+    \item Se decidirá si se usan filtros paso-todo para corregir la fase. 
+\end{itemize}
+
 
 \end{document}
