@@ -1,0 +1,117 @@
+\documentclass[a4paper, 8pt]{extarticle}
+
+\usepackage[greek,spanish,es-tabla,es-nodecimaldot]{babel}
+\usepackage[a4paper, lmargin=0.2cm,rmargin=0.2cm,tmargin=1cm,bmargin=1cm, landscape]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[exponent-product = \cdot, per-mode = fraction]{siunitx}
+\usepackage{cancel}
+\usepackage{siunitx}
+\usepackage{physics}
+\AtBeginDocument{\RenewCommandCopy{\qty}{\SI}}
+\usepackage{lipsum}
+\usepackage{esvect}
+\renewcommand{\vec}[1]{\vv{{#1}}}
+\renewcommand{\grad}{\vec{\nabla}}
+\renewcommand{\cot}{\operatorname{cotg}}
+
+\usepackage{parskip}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, babel, fadings}
+
+\usepackage{circuitikz}
+\ctikzset{bipoles/length=1cm}
+
+\usepackage{lmodern}
+% \renewcommand{\familydefault}{\sfdefault}
+% \renewcommand{\rmdefault}{\sfdefault}
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\color{blue}\normalfont\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\titlespacing*{\section}{0pt}{12pt plus 4pt minus 2pt}{5pt plus 2pt minus 2pt}
+\titlespacing*{\subsection}{0pt}{12pt plus 4pt minus 2pt}{3pt plus 2pt minus 2pt}
+\titlespacing*{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{3pt plus 2pt minus 2pt}
+
+%\allowdisplaybreaks
+\setcounter{secnumdepth}{-1}
+\setcounter{tocdepth}{-1}
+
+\newcommand{\pag}[1]{\text{(Pág. #1)}}
+\DeclareSIUnit\rayl{rayl}
+\DeclareSIUnit\dbspl{\text{dB\ensuremath{_{\textup{SPL}}}}}
+\DeclareSIUnit\dbsil{\text{dB\ensuremath{_{\textup{SIL}}}}}
+
+
+%%% INICIO DEL DOCUMENTO %%%
+\begin{document}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+\renewcommand{\arraystretch}{1.5}
+
+\begin{multicols}{3}
+    \section{Glosario}
+    Pista: las variables suelen estar en cursiva, las unidades no.
+    \[
+        \begin{alignedat}{2}
+            S          & \equiv \text{Sensibilidad}  \left[ \unit{\dbspl} \right]                                                  \\
+            H          & \equiv \text{Función de transferencia}  \left[ \unit{\dB} \text{ re. }\unit{\volt\per\pascal} \right]     \\
+            P          & \equiv \text{Potencia} \left[ \unit{\watt} \right]                                                        \\
+            V          & \equiv \text{Tensión en bornes del altavoz (a veces aparece como } E \text{)} \left[ \unit{\volt} \right] \\
+            \text{SPL} & \equiv \text{Nivel de presión sonora (a veces aparece como } L \text{)} \left[ \unit{\dbspl} \right]      \\
+            Z_n        & \equiv \text{Impedancia nominal del altavoz} \left[ \unit{\ohm} \right]                                   \\
+        \end{alignedat}
+    \]
+
+    \section{Fórmulas útiles}
+    \subsection{Nivel de presión en la banda útil}
+    \[
+        \text{SPL}_{\Delta \textup{B}} = 10 \log \left( \sum_{i}^{N} 10^{\frac{\text{SPL}_i}{10}} \right)
+    \]
+    \color{gray}Donde:
+    \begin{itemize}
+        \item $\Delta \textup{B}$ se refiere a la banda de frecuencias en la que se realiza la suma (generalmente el rango útil del altavoz).
+        \item $N$ es el número de bandas.
+    \end{itemize}\color{black}
+
+    \subsection{Potencia en la banda útil}
+    La potencia se puede sumar directamente:
+    \[
+        P_{\Delta \textup{B}} = \sum_{i}^{N} P_i
+    \]
+
+    \section{Parámetros de altavoces}
+    \subsection{Sensibilidad}
+    La sensibilidad $S$ de un altavoz se define como el nivel de presión sonora radiada por el altavoz cuando se le excita con una potencia de \qty{1}{\watt}, sobre la impedancia nominal, a \qty{1}{\meter} de distancia y en el eje de máxima radiación.
+
+    \subsubsection{Corrección de la distancia y de la potencia}
+    Si la distancia a la que se mide la sensibilidad no es de \qty{1}{\meter} o si la potencia aplicada en la banda útil no es de \qty{1}{\watt}, se puede calcular la sensibilidad como:
+    \[
+        S \left( \qty{1}{\watt }, \qty{1}{\meter}, \qty{0}{\degree }  \right) = \text{SPL}_{r,P} + 20 \log \left( r \right) - 10 \log \left( P \right)
+    \]
+
+    \color{gray}Donde $\text{SPL}_{r,P}$ es el nivel de presión sonora medido a una distancia $r$ tras aplicar una potencia $P$ al altavoz en la banda útil.\color{black}
+
+
+    \subsection{Potencia disipada en el altavoz}
+    Usando la ley de Ohm ($V=I \cdot R$), la potencia queda como:
+    \[ P = V \cdot I = \frac{V^2}{Z_n}\]
+    \color{gray}Donde:
+    \begin{itemize}
+        \item $I$ es la corriente que circula por el altavoz (apenas se usará para los primeros temas de SEA).
+    \end{itemize}\color{black}
+
+    \vfill\null
+    \columnbreak
+    \vfill\null
+    \columnbreak
+    \vfill\null
+    \columnbreak
+\end{multicols}
+\end{document}
