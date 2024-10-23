@@ -17,7 +17,7 @@
 \renewcommand{\cot}{\operatorname{cotg}}
 
 \usepackage{parskip}
-
+\usepackage{tabu}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows, babel, fadings}
@@ -87,6 +87,14 @@
     \]
 
     \section{Parámetros de altavoces}
+    \subsection{Potencia disipada en el altavoz}
+    Usando la ley de Ohm ($V=I \cdot R$), la potencia queda como:
+    \[ P = V \cdot I = \frac{V^2}{Z_n}\]
+    \color{gray}Donde:
+    \begin{itemize}
+        \item $I$ es la corriente que circula por el altavoz (apenas se usará para los primeros temas de SEA).
+    \end{itemize}\color{black}
+
     \subsection{Sensibilidad}
     La sensibilidad $S$ de un altavoz se define como el nivel de presión sonora radiada por el altavoz cuando se le excita con una potencia de \qty{1}{\watt}, sobre la impedancia nominal, a \qty{1}{\meter} de distancia y en el eje de máxima radiación.
 
@@ -98,20 +106,43 @@
 
     \color{gray}Donde $\text{SPL}_{r,P}$ es el nivel de presión sonora medido a una distancia $r$ tras aplicar una potencia $P$ al altavoz en la banda útil.\color{black}
 
+    \subsection{Función de transferencia}
 
-    \subsection{Potencia disipada en el altavoz}
-    Usando la ley de Ohm ($V=I \cdot R$), la potencia queda como:
-    \[ P = V \cdot I = \frac{V^2}{Z_n}\]
-    \color{gray}Donde:
-    \begin{itemize}
-        \item $I$ es la corriente que circula por el altavoz (apenas se usará para los primeros temas de SEA).
-    \end{itemize}\color{black}
+    La función de transferencia $H$ de un altavoz se define como la relación entre la tensión en los bornes del altavoz y la presión sonora radiada por el altavoz cuando se le
 
     \vfill\null
     \columnbreak
-    \vfill\null
-    \columnbreak
-    \vfill\null
-    \columnbreak
+    \section{Filtros de cruce}
+    \subsection{Variable de Laplace normalizada}
+    Es habitual encontrar los filtros definidos por su función de transferencia con la variable $s$ normalizada. A menudo se da por hecho y no la distinguen, pero lo adecuado es definirla con otro nombre, así:
+    \[s_0 = \frac{s}{\omega_c} = \frac{s}{2 \pi f_c}\]
+
+    \subsection{Filtros de Butterworth}
+
+    Presentan potencia constante $\left( \abs{H_P (\omega)}^2 = \abs{H_L (\omega )}^2 + \abs{H_H (\omega )}^2   = 1\right)$, pero no tensión constante (excepto el de orden 1). La frecuencia de corte se define a \qty{-3}{\dB}.
+
+    \subsubsection{Polinomios de Butterworth}
+    \begin{align*}
+        B_1(s)  & = s + 1                                                                                             \\
+        B_2(s)  & = s^2 + \sqrt{2} s + 1                                                                              \\
+        B_3(s)  & =  \left( s+1 \right)\left( s^2 +s+1 \right) \color{gray} = s^3 + 2 s^2 + 2 s + 1 \color{black}     \\
+        B_4(s)  & = \left( s^2 +1.848 s +1 \right) \left( s^2 +0.7654s +1 \right)                                     \\
+        B_5(s)  & = \left( s + 1 \right) \left( s^2 + 1.618s + 1 \right) \left( s^2 + 0.618s + 1 \right)              \\
+        B_6 (s) & = \left( s^2 + 1.932s + 1 \right) \left( s^2 + \sqrt{2}s +1 \right) \left( s^2 +0.5176s + 1 \right)
+    \end{align*}
+
+    \subsection{Filtros de Linkwitz-Riley}
+
+    Son el producto de dos filtros Butterworth.
+    \[ L_{2r}(s) = \left[ B_r (s)\right]^2 \]
+
+    \subsubsection{Polinomios de Linkwitz-Riley}
+    \begin{align*}
+        L_2 (s) & = \left( s + 1 \right)^2               \\
+        L_4 (s) & = \left( s^2 + \sqrt{2}s + 1 \right)^2 \\
+        L_6 (s) & = \left( s^3  +2s^ 2 +2s +1 \right)^2  \\
+    \end{align*}
+    % \vfill\null
+    % \columnbreak
 \end{multicols}
 \end{document}
