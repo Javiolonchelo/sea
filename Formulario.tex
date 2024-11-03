@@ -73,35 +73,36 @@
             V          & \equiv \text{Tensión en bornes del altavoz (a veces aparece como } E \text{)} \left[ \unit{\volt} \right] \\
             \text{SPL} & \equiv \text{Nivel de presión sonora (a veces aparece como } L \text{)} \left[ \unit{\dbspl} \right]      \\
             Z_n        & \equiv \text{Impedancia nominal del altavoz} \left[ \unit{\ohm} \right]                                   \\
-            Q          & \equiv \text{Factor de sobrecarga (o factor de calidad en circuitos eléctricos)}                          \\
+            Q          & \equiv \text{Factor de sobrecarga (o de calidad en circuitos eléctricos)}                                 \\
+            x_d        & \equiv \text{Desplazamiento del diafragma} \left[ \unit{\meter} \right]                                   \\
+            u_d        & \equiv \text{Velocidad del diafragma} \left[ \unit{\meter\per\second} \right]                             \\
+            a_d        & \equiv \text{Aceleración del diafragma} \left[ \unit{\meter\per\square\second} \right]                    \\
+            X(s)       & \equiv \text{Función de desplazamiento}                                                                   \\
+            \alpha     & \equiv \text{Relación de compliancias (o ductilidades)}                                                   \\
+            f_b        & \equiv \text{Frecuencia de sintonía del bass-reflex} \left[ \unit{\hertz} \right]                         \\
         \end{alignedat}
     \]
 
     \section{Fórmulas útiles}
-    \subsection{Nivel de presión en la banda útil}
-    \[
-        \text{SPL}_{\Delta \textup{B}} = 10 \log \left( \sum_{i}^{N} 10^{\frac{\text{SPL}_i}{10}} \right)
-    \]
+    \subsection{Nivel de presión y potencia en la banda útil}
+    \[\text{SPL}_{\Delta \textup{B}} = 10 \log \left( \sum_{i}^{N} 10^{\frac{\text{SPL}_i}{10}} \right)\]
     \color{gray}\begin{itemize}
         \item $\Delta \textup{B}$ se refiere a la banda de frecuencias en la que se realiza la suma (generalmente el rango útil del altavoz).
         \item $N$ es el número de bandas.
     \end{itemize}\color{black}
 
-    \subsection{Potencia en la banda útil}
-    La potencia se puede sumar directamente:
-    \[
-        P_{\Delta \textup{B}} = \sum_{i}^{N} P_i
-    \]
+    La potencia se puede sumar directamente: $P_{\Delta \textup{B}} = \sum_{i}^{N} P_i$
+
 
     \subsection{Décadas y octavas}
 
     Un filtro con pendiente de \qty{6}{\dB \per \octave} tiene una pendiente de \qty{20}{\dB \per \decade}.
     \[ \begin{alignedat}{3}
-            \text{Década:}       & \quad & f_2 & = 10 f_1        \\
-            \text{Octava:}       &       & f_2 & = 2 f_1         \\
-            \text{Media década:} &       & f_2 & = \sqrt{10} f_1
+            \text{Década:}                                   & \quad & f_2 & = 10 f_1              \\
+            \text{Octava:}                                   &       & f_2 & = 2 f_1               \\
+            \text{Media década:}                             &       & f_2 & = \sqrt{10} f_1       \\
+            \frac{f_2}{f_1} = \frac{2}{3} \text{ de octava:} &       & f_2 & = 2 ^{\frac{2}{3}}f_1
         \end{alignedat} \]
-
 
     \section{Parámetros de altavoces}
 
@@ -138,39 +139,95 @@
     El método de Small es un método de cálculo de los parámetros Thiele-Small a partir de la impedancia eléctrica equivalente $Z_{ee}(f)$ del altavoz. A partir de la gráfica de $\abs{Z_{ee}(f)}$ con respecto a la frecuencia, los pasos son:
     \begin{enumerate}
         \item Calcular $R_e$ como el valor de $\abs{Z_{ee}(f)}$ en $f=\qty{0}{\Hz}$, o en la frecuencia más baja que aparezca.
-        \item Calcular $Z _{\text{res}}$ como $\max \left\lbrace \abs{Z_{ee}(f)} \right\rbrace $, es decir, el valor del pico de resonancia. Así obtenemos también $f _{\text{res}}$, que es la frecuencia en la que se da este pico.
+        \item Calcular $Z _{\text{res}}$ como $\max \left\lbrace \abs{Z_{ee}(f)} \right\rbrace $, es decir, el valor del pico de resonancia. Así obtenemos también $f _s$, que es la frecuencia en la que se da este pico.
         \item Calcular $r_0$ y $Z_{r_0}$ según las fórmulas de la tabla.
-        \item Dibujamos una línea recta horizontal en el gráfico a la altura de $Z_{r_0}$. Los puntos de corte con la curva alrededor de la resonancia nos dan $f_1$ y $f_2$.
+        \item Dibujamos una línea recta horizontal en el gráfico a la altura de $Z_{r_0}$. Los puntos de corte con la curva alrededor de la resonancia nos dan $f_1$ y $f_2$. \color{gray} Si esto no fuera posible, recuerda que son geométricamente simétricas respecto a $f_s$, es decir, $f_s = \sqrt{f_1 f_2}$. \color{black}
         \item Ya podemos calcular los factores de sobrecarga según las fórmulas de la tabla.
     \end{enumerate}
     \begin{center}
-        \includegraphics[width=0.7\linewidth]{images/Zeq.png}
+        \includegraphics[width=\linewidth]{images/Zeq.png}
     \end{center}
 
     \subsection{Parámetros de Thiele-Small}
     \begin{center}
+        % \everymath{\displaystyle}
         \begin{tabular}{|c|c|l|}
             \hline
-            \textbf{Param}         & \textbf{SI}     & \textbf{Descripción y valor}                                                                  \\
+            \textbf{Param}     & \textbf{SI}             & \textbf{Descripción y valor}                                                                                                                                  \\
+
             \hline
-            $R _{\text{dc}} / R_e$ & \unit{\ohm}     & Resistencia total del circuito en continua                                                    \\
-            $f _{\text{res}}$      & \unit{\hertz}   & Frecuencia de resonancia                                                                      \\
-            $M _{\text{ms}}$       & \unit{\kg}      & Masa móvil                                                                                    \\
-            $C _{\text{ms}}$       & \unit{\meter}   & Compliancia mecánica del diafragma                                                            \\
-            $S_d$                  & \unit{\meter^2} & Superficie efectiva del diafragma                                                             \\
-            $Z _{\text{res}} $     & \unit{\ohm}     & Impedancia a la frecuencia de resonancia                                                      \\
-            $r_0$                  & -               & $r_0 =\frac{Z _{\text{res}}}{R_e}$                                                            \\
-            $Z_{r_0}$              & \unit{\ohm}     & $Z_{r_0}=R_e \sqrt{r_0}$                                                                      \\
-            $f_1, f_2$             & \unit{\hertz}   & Frecuencias para calcular los factores $Q$                                                    \\
-            $Q _{\text{ms}}$       & -               & Factor de sobrecarga mecánico $Q _{\text{ms}} = \frac{f _{\text{res}} \sqrt{r_0}}{f_2 - f_1}$ \\
-            $Q _{\text{es}}$       & -               & Factor de sobrecarga eléctrico $Q _{\text{es}} = \frac{Q _{\text{ms}}}{r_0 - 1}$              \\
-            $Q _{\text{ts}}$       & -               & Factor de sobrecarga total $Q _{\text{ts}} = \frac{Q _{\text{ms}}}{r_0}$                      \\
+            $R_e$              & \unit{\ohm}             & Resistencia total del circuito en continua                                                                                                                    \\
+            $x_{\text{máx}}$   & \unit{\meter}           & Despl. máximo del diafragma $x_{\text{máx}} = \frac{e_g' Bl C _{\text{ms}}}{R_e}$                                                                             \\
+            $S_d$              & \unit{\meter^2}         & Superficie efectiva del diafragma                                                                                                                             \\
+            $V _{\text{as}}$   & \unit{\meter^3}         & Volumen de aire equivalente a la suspensión                                                                                                                   \\
+            $Bl$               & \unit{\weber\per\metre} & Factor de fuerza                                                                                                                                              \\
+
+            \hline
+            $R _{\text{ms}}$   & \unit{\ohm}             & Resistencia mecánica del altavoz                                                                                                                              \\
+            $M _{\text{ms}}$   & \unit{\kg}              & Masa móvil                                                                                                                                                    \\
+            $C _{\text{ms}}$   & \unit{\meter \per \N}   & Compliancia mecánica del diafragma                                                                                                                            \\
+
+            \hline
+            $\eta _0$          & \%                      & Eficiencia de referencia                                                                                                                                      \\
+            $P _{\text{er}}$   & \unit{\watt}            & P eléctrica lim. por despl.                                                $P _{\text{er}} = \frac{\left( \frac{e_{g \text{ máx}}}{\sqrt{2}} \right)^2}{R_e}$ \\
+            $P _{\text{ar}}$   & \unit{\watt}            & P acústica lim. por despl.                                                                                                                                    \\
+
+            \hline
+            $f _s$             & \unit{\hertz}           & Frecuencia de resonancia                                                                                                                                      \\
+            $Z _{\text{res}} $ & \unit{\ohm}             & Impedancia a la frecuencia de resonancia                                                                                                                      \\
+            $r_0$              & -                       & $r_0 =\frac{Z _{\text{res}}}{R_e}$                                                                                                                            \\
+            $Z_{r_0}$          & \unit{\ohm}             & $Z_{r_0}=R_e \sqrt{r_0}$                                                                                                                                      \\
+            $f_1, f_2$         & \unit{\hertz}           & Frecuencias para calcular los factores $Q$                                                                                                                    \\
+            $Q _{\text{ms}}$   & -                       & Factor de sobrecarga mecánico $Q _{\text{ms}} = \frac{f _s \sqrt{r_0}}{f_2 - f_1}$                                                                            \\
+            $Q _{\text{es}}$   & -                       & Factor de sobrecarga eléctrico $Q _{\text{es}} = \frac{Q _{\text{ms}}}{r_0 - 1}$                                                                              \\
+            $Q _{\text{ts}}$   & -                       & Factor de sobrecarga total $Q _{\text{ts}} = \frac{Q _{\text{ms}}}{r_0}$                                                                                      \\
+            $k_x$              & -                       & $k_x = 1$ pantalla inf., $k_x = \frac{1}{1-\alpha}$ en caja cerrada                                                                                           \\
             \hline
         \end{tabular}
     \end{center}
+    \subsection{Función de respuesta (en pantalla infinita)}
+    \[ G(s) = \frac{s^2T_s^2}{s^2 T_s + s \frac{T_s}{Q _{\text{ts}} } + 1} \qquad\qquad \abs{G(j \omega )}_{\omega = \omega _s} = Q _{\text{ts}}\]
+    Además, $\abs{G(s=j\omega_{-3s})} = \frac{1}{\sqrt{2}}$.
+    \begin{align*}
+        X(s)    & = \frac{1}{s^2 T_s + s \frac{T_s}{Q _{\text{ts}}} + 1}    \\
+        x_d (s) & = \frac{1}{s} \cdot u_d (s) = \frac{1}{s^2} \cdot a_d (s)
+    \end{align*}
+    \subsection{Altavoz en caja cerrada}
+    Aquí los subíndices $c,s$ corresponden a caja cerrada y pantalla infinita, respectivamente. Meter el altavoz en una caja cerrada desplaza la frecuencia de resonancia. Además, pueden surgir modos propios debidos a la caja.
 
-    \vfill\null
-    \columnbreak
+    \[ \frac{x_{dc}}{x_{ds}} = \frac{1}{1 + \alpha }\qquad\qquad \frac{f_c}{f_s} = \sqrt{1 + \alpha } \qquad\qquad \frac{P_{erc}}{P_{ers}} = \left( 1 + \alpha  \right) ^2 \]
+    \[ \alpha = \frac{C_{as}}{C_{ab}} = \frac{C_{as}}{C_{at}} + 1 \]
+
+    \begin{center}
+        \includegraphics[width=0.49\linewidth]{images/caja_vs_pantalla.png}
+        \includegraphics[width=0.49\linewidth]{images/Zee_caja_vs_pantalla.png}
+        \includegraphics[width=0.49\linewidth]{images/desplazamiento.png}
+        \includegraphics[width=0.49\linewidth]{images/velocidad.png}
+        \includegraphics[width=0.49\linewidth]{images/aceleracion.png}
+    \end{center}
+
+    \subsection{Bass-reflex}
+    En la gráfica de la impedancia eléctrica del altavoz, vemos que surge otro pico de resonancia debido al agujero realizado en la caja, que es un resonador de Helmoltz. Para altavoces bass-reflex, la función de respuesta es un filtro paso alto de cuarto orden ($+\qty{24}{\dB \per \octave}$).
+
+    \[ \text{Relación de sintonía: } h = \frac{f_b}{f_s} = \frac{\omega_b}{\omega_s} = \frac{T_s}{T_b} \]
+    \[ G_b = \frac{s^4 T_0^4}{s^4T_0^4 + a_1s^3T_0^3 + a_2 s^2T_0^2 + a_3 s T_0 + 1} \]
+    \[ \left\lbrace \begin{alignedat}{2}
+            T_0 & = \sqrt{T_bT_s} = \frac{T_s}{\sqrt{h}} \\
+            f_0 & = \sqrt{f_b f_s} = f_s \sqrt{h}
+        \end{alignedat} \right.  \qquad \left\lbrace \begin{alignedat}{2}
+            a_1 & = \frac{Q_b + h Q _{\text{ts}}}{Q_b Q _{\text{ts}} \sqrt{h}}                         \\
+            a_2 & = \frac{h + \left( \alpha + 1 + h^2 \right) Q_b Q _{\text{ts}}}{Q_b Q _{\text{ts}}h} \\
+            a_3 & = \frac{h Q_b + Q _{\text{ts}}}{Q_b Q _{\text{ts}} \sqrt{h}}
+        \end{alignedat}  \right.\]
+
+    \begin{center}
+        \includegraphics[width=0.38\linewidth]{images/Zee_bass_reflex.png}
+        \includegraphics[width=0.49\linewidth]{images/G_bass_reflex.png}
+        \includegraphics[width=0.49\linewidth]{images/desplazamiento_bass_reflex.png}
+        \includegraphics[width=0.49\linewidth]{images/velocidad_bass_reflex.png}
+        \includegraphics[width=0.49\linewidth]{images/aceleracion_bass_reflex.png}
+        \includegraphics[width=0.49\linewidth]{images/relacion_desplazamientos.png}
+    \end{center}
 
     \section{Filtros de cruce (\textit{crossover filters})}
 
@@ -190,8 +247,6 @@
     \subsection{Filtros de Butterworth}
 
     Presentan potencia constante $\left( \abs{H_P (\omega)}^2 = \abs{H_L (\omega )}^2 + \abs{H_H (\omega )}^2   = 1\right)$, pero no tensión constante (excepto el de orden 1). La frecuencia de corte se define a \qty{-3}{\dB}.
-
-    \subsubsection{Polinomios de Butterworth}
     \begin{align*}
         B_1(s)  & = s + 1                                                                                             \\
         B_2(s)  & = s^2 + \sqrt{2} s + 1                                                                              \\
@@ -205,8 +260,6 @@
 
     Son el producto de dos filtros Butterworth.
     \[ L_{2r}(s) = \left[ B_r (s)\right]^2 \]
-
-    \subsubsection{Polinomios de Linkwitz-Riley}
     \begin{align*}
         L_2 (s) & = \left( s + 1 \right)^2               \\
         L_4 (s) & = \left( s^2 + \sqrt{2}s + 1 \right)^2 \\
